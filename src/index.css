@@ -1,0 +1,149 @@
+/* LUSO Glass™ Design System */
+
+:root {
+  /* Color Palette */
+  --bg-start: #0A0E1A;
+  --bg-end: #0D1B2A;
+  --accent-blue: #0077b6; /* Pezgallo Logo Blue approximation, adjust if needed */
+  --text-primary: #f8f9fa;
+  --text-secondary: #adb5bd;
+  --text-tertiary: #6c757d;
+  
+  /* LUSO Glass Tokens */
+  --glass-bg: rgba(255, 255, 255, 0.03);
+  --glass-bg-hover: rgba(255, 255, 255, 0.08);
+  --glass-border: rgba(255, 255, 255, 0.08);
+  --glass-border-light: rgba(255, 255, 255, 0.15);
+  --glass-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.37);
+  --glass-radius: 24px;
+  --glass-radius-sm: 12px;
+  --glass-blur: 16px;
+  
+  /* Typography */
+  --font-primary: 'Outfit', sans-serif;
+  --font-serif: 'Playfair Display', serif;
+}
+
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+body {
+  font-family: var(--font-primary);
+  background: linear-gradient(135deg, var(--bg-start), var(--bg-end));
+  color: var(--text-primary);
+  min-height: 100vh;
+  overflow-x: hidden;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+/* Underwater Atmosphere Background */
+.underwater-bg {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  z-index: -1;
+  pointer-events: none;
+  background: linear-gradient(to bottom, #071324, #040914);
+  overflow: hidden;
+}
+
+/* Light rays effect */
+.underwater-bg::before {
+  content: '';
+  position: absolute;
+  top: -50%;
+  left: -50%;
+  width: 200%;
+  height: 200%;
+  background: conic-gradient(
+    from 180deg at 50% 50%, 
+    transparent 0deg, 
+    rgba(0, 119, 182, 0.05) 45deg, 
+    transparent 90deg, 
+    transparent 180deg, 
+    rgba(0, 119, 182, 0.03) 225deg, 
+    transparent 270deg, 
+    transparent 360deg
+  );
+  animation: rotateRays 60s linear infinite;
+  transform-origin: center;
+}
+
+/* Subtle caustics/waves overlay */
+.underwater-bg::after {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: -20%;
+  width: 140%;
+  height: 140%;
+  background-image: 
+    radial-gradient(ellipse at 50% 0%, rgba(2, 62, 138, 0.3) 0%, transparent 60%),
+    radial-gradient(ellipse at 80% 80%, rgba(0, 119, 182, 0.15) 0%, transparent 50%);
+  background-size: 100% 100%;
+  animation: oceanBreath 12s ease-in-out infinite alternate;
+}
+
+@keyframes rotateRays {
+  0% { transform: rotate(0deg); }
+  100% { transform: rotate(360deg); }
+}
+
+@keyframes oceanBreath {
+  0% { opacity: 0.6; transform: scale(1) translateY(0); }
+  100% { opacity: 1; transform: scale(1.05) translateY(-2%); }
+}
+
+@keyframes waveMove {
+  0% { background-position: 0px 0px, 0px 0px, 0px 0px; }
+  100% { background-position: 0px 0px, 200px 200px, -200px 200px; }
+}
+
+/* Base LUSO Glass Class */
+.luso-glass {
+  background: var(--glass-bg);
+  backdrop-filter: blur(var(--glass-blur));
+  -webkit-backdrop-filter: blur(var(--glass-blur));
+  border: 1px solid var(--glass-border);
+  border-radius: var(--glass-radius);
+  box-shadow: var(--glass-shadow);
+  transition: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
+}
+
+.luso-glass:hover {
+  background: var(--glass-bg-hover);
+  border: 1px solid var(--glass-border-light);
+}
+
+/* Scrollbar Customization */
+::-webkit-scrollbar {
+  width: 6px;
+  height: 6px;
+}
+
+::-webkit-scrollbar-track {
+  background: rgba(0,0,0,0.2);
+}
+
+::-webkit-scrollbar-thumb {
+  background: var(--glass-border-light);
+  border-radius: 10px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: var(--accent-blue);
+}
+
+/* Utility Classes */
+.container {
+  width: 100%;
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 0 20px;
+}
