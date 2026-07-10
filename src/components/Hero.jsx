@@ -19,12 +19,32 @@ const Hero = () => {
         transition={{ duration: 1, ease: 'easeOut' }}
         style={{ zIndex: 10, display: 'flex', flexDirection: 'column', alignItems: 'center' }}
       >
-        <img 
-          src="/logo.png" 
-          alt="Pezgallo Logo" 
-          style={{ width: '150px', marginBottom: '1.5rem' }} 
-          onError={(e) => { e.target.style.display = 'none'; }} 
-        />
+        <div 
+          className="luso-glass"
+          style={{ 
+            width: '160px', 
+            height: '160px', 
+            borderRadius: '50%', 
+            display: 'flex',
+            alignItems: 'center',
+            justifyContent: 'center',
+            marginBottom: '1.5rem',
+            overflow: 'hidden',
+            padding: '15px',
+            background: 'rgba(255, 255, 255, 0.05)'
+          }}
+        >
+          <img 
+            src="/logo.png" 
+            alt="Pezgallo Logo" 
+            style={{ 
+              width: '100%', 
+              height: '100%', 
+              objectFit: 'contain',
+              borderRadius: '50%'
+            }} 
+          />
+        </div>
         <h1 style={{ 
 
           fontFamily: 'var(--font-serif)', 
