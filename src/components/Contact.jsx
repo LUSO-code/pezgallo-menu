@@ -39,6 +39,12 @@ const Contact = () => {
             <p style={{ fontSize: '1.1rem', color: 'var(--text-tertiary)' }}>12:00 PM – 6:00 PM</p>
           </div>
 
+          <div style={{ marginBottom: '2rem' }}>
+            <h3 style={{ fontSize: '1.3rem', marginBottom: '0.5rem', color: 'var(--text-secondary)' }}>Dirección</h3>
+            <p style={{ fontSize: '1.1rem' }}>Calle Ignacio Sandoval 515c</p>
+            <p style={{ fontSize: '1.1rem', color: 'var(--text-tertiary)' }}>Villa de Álvarez, Colima</p>
+          </div>
+
           <div>
             <h3 style={{ fontSize: '1.3rem', marginBottom: '0.5rem', color: 'var(--text-secondary)' }}>Redes</h3>
             <a 
@@ -52,7 +58,7 @@ const Contact = () => {
           </div>
         </motion.div>
 
-        {/* Map Placeholder Card */}
+        {/* Map Card */}
         <motion.div 
           className="luso-glass"
           initial={{ opacity: 0, x: 20 }}
@@ -60,18 +66,28 @@ const Contact = () => {
           viewport={{ once: true }}
           style={{ 
             flex: '2 1 400px', 
-            minHeight: '300px',
-            display: 'flex',
-            alignItems: 'center',
-            justifyContent: 'center',
-            overflow: 'hidden'
+            minHeight: '350px',
+            overflow: 'hidden',
+            padding: 0,
+            borderRadius: 'var(--glass-radius)'
           }}
         >
-          {/* A simple placeholder for Google Maps */}
-          <div style={{ textAlign: 'center', color: 'var(--text-tertiary)' }}>
-            <p style={{ fontSize: '1.2rem', marginBottom: '1rem' }}>Ubicación en Google Maps</p>
-            <p style={{ fontSize: '0.9rem' }}>(Integración de mapa pendiente)</p>
-          </div>
+          <iframe
+            title="Ubicación Pezgallo"
+            src="https://maps.google.com/maps?q=Ignacio+Sandoval+515c,+Villa+de+Alvarez,+Colima,+Mexico&t=&z=16&ie=UTF8&iwloc=&output=embed"
+            width="100%"
+            height="100%"
+            style={{ 
+              border: 'none', 
+              minHeight: '350px',
+              display: 'block',
+              filter: 'invert(90%) hue-rotate(180deg) brightness(0.95) contrast(1.1)',
+              borderRadius: 'var(--glass-radius)'
+            }}
+            allowFullScreen=""
+            loading="lazy"
+            referrerPolicy="no-referrer-when-downgrade"
+          />
         </motion.div>
 
       </div>
