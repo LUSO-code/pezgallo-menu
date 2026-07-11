@@ -88,6 +88,7 @@ const Menu = () => {
                   width: '100%',
                   height: '100%',
                   objectFit: 'cover',
+                  objectPosition: currentCategoryData.imagePosition || 'center',
                   opacity: 0.8
                 }}
               />

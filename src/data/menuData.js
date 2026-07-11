@@ -23,6 +23,7 @@ export const menuData = [
   {
     category: "Aguachiles",
     image: "/images/tostada.webp",
+    imagePosition: "bottom",
     items: [
       { name: "Verde", price: "Orden: $270 | Media: $165 | Tostada: $85", description: "Tradicional aguachile preparado con verdura fresca y bañado en salsa picante." },
       { name: "De la Casa", price: "Orden: $270 | Media: $165 | Tostada: $85", description: "Camarón curtido, cebolla y pepino, bañado con deliciosa salsa roja pez gallo.", tag: "⭐" }
@@ -40,7 +41,8 @@ export const menuData = [
   },
   {
     category: "Especialidades",
-    image: "/images/nosotros.webp",
+    image: "/images/hamburguesa.webp",
+    imagePosition: "bottom",
     items: [
       { name: "Tostigallos", price: "$100", description: "Tostitos acompañados del aguachile de tu preferencia (verde/de la casa) o de tahitiana." },
       { name: "Torre de Mariscos", price: "$240", description: "Pulpo, camarón, una cama de ceviche \"deivis\", pepino con un toque de salsas de la casa y aguacate." }
@@ -48,7 +50,7 @@ export const menuData = [
   },
   {
     category: "Cocina Caliente",
-    image: "/images/hamburguesa.webp",
+    image: "/images/hamburguesa2.webp",
     items: [
       { name: "Tacos", price: "$55", description: "Camarón o Pescado capeado estilo baja con tortilla echa a mano y aguacate. Acompañados con col morada y pico de gallo." },
       { name: "Burritos (Camarón)", price: "$120", description: "Marisco capeado, tortilla de harina, queso, pico de gallo, aguacate y un poco de col morada. (De los favoritos)" },
@@ -66,6 +68,7 @@ export const menuData = [
   {
     category: "Bebidas",
     image: "/images/bebida.webp",
+    imagePosition: "center 25%",
     items: [
       { name: "Limonada / Naranjada", price: "$40" },
       { name: "Refresco", price: "$35" }
