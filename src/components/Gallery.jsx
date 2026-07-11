@@ -33,47 +33,9 @@ const Gallery = () => {
 
   return (
     <section className="container" style={{ padding: '5rem 20px' }}>
-      <motion.h2 
-        initial={{ opacity: 0, y: 20 }}
-        whileInView={{ opacity: 1, y: 0 }}
-        viewport={{ once: true }}
-        style={{
-          fontFamily: 'var(--font-serif)',
-          fontSize: '2.5rem',
-          textAlign: 'center',
-          marginBottom: '1rem'
-        }}
-      >
-        Galería
-      </motion.h2>
 
-      <motion.p
-        initial={{ opacity: 0 }}
-        whileInView={{ opacity: 1 }}
-        viewport={{ once: true }}
-        style={{
-          textAlign: 'center',
-          color: 'var(--text-secondary)',
-          fontSize: '1.1rem',
-          marginBottom: '3rem',
-          fontWeight: 300
-        }}
-      >
-        Síguenos en{' '}
-        <a 
-          href="https://www.instagram.com/_pezgallo/" 
-          target="_blank" 
-          rel="noreferrer"
-          style={{ 
-            color: 'var(--accent-blue)', 
-            textDecoration: 'none',
-            fontWeight: 500,
-            transition: 'opacity 0.3s'
-          }}
-        >
-          @_pezgallo
-        </a>
-      </motion.p>
+
+
 
       {ELFSIGHT_WIDGET_ID ? (
         /* ── Live Instagram Feed via Elfsight ── */
