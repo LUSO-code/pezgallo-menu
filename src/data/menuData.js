@@ -23,7 +23,7 @@ export const menuData = [
   {
     category: "Aguachiles",
     image: "/images/tostada.webp",
-    imagePosition: "bottom",
+    imagePosition: "center 75%",
     items: [
       { name: "Verde", price: "Orden: $270 | Media: $165 | Tostada: $85", description: "Tradicional aguachile preparado con verdura fresca y bañado en salsa picante." },
       { name: "De la Casa", price: "Orden: $270 | Media: $165 | Tostada: $85", description: "Camarón curtido, cebolla y pepino, bañado con deliciosa salsa roja pez gallo.", tag: "⭐" }
@@ -32,6 +32,7 @@ export const menuData = [
   {
     category: "Chabelas",
     image: "/images/coctel.webp",
+    imagePosition: "center 70%",
     items: [
       { name: "Camarón", price: "$220" },
       { name: "Pulpo", price: "$270" },
@@ -68,7 +69,7 @@ export const menuData = [
   {
     category: "Bebidas",
     image: "/images/bebida.webp",
-    imagePosition: "center 25%",
+    imagePosition: "center 90%",
     items: [
       { name: "Limonada / Naranjada", price: "$40" },
       { name: "Refresco", price: "$35" }
