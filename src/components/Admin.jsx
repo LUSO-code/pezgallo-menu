@@ -68,15 +68,16 @@ const Admin = ({ onBack }) => {
   const handleSyncCloud = async () => {
     setIsSaving(true);
     try {
-      const response = await fetch('https://kvdb.io/pezgallo_bucket_7f1a9b2c3d/menu', {
-        method: 'PUT',
+      const response = await fetch('/api/menu', {
+        method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify(menu),
+        body: JSON.stringify({ password: 'PGdeivid', menuData: menu }),
       });
+      const data = await response.json();
       if (response.ok) {
         alert('🎉 ¡Menú sincronizado con la nube con éxito! Los cambios son visibles al instante en todos los dispositivos de tus clientes.');
       } else {
-        throw new Error('Error al conectar con la base de datos.');
+        throw new Error(data.message || 'Error al conectar con la base de datos.');
       }
     } catch (error) {
       console.warn('Sync failed:', error);

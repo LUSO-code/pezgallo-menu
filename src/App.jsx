@@ -31,7 +31,7 @@ function App() {
     // Fetch fresh data from cloud bucket in background
     const fetchCloudMenu = async () => {
       try {
-        const response = await fetch('https://kvdb.io/pezgallo_bucket_7f1a9b2c3d/menu');
+        const response = await fetch('/api/menu');
         if (response.ok) {
           const data = await response.json();
           if (Array.isArray(data) && data.length > 0) {
