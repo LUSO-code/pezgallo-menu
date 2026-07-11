@@ -13,7 +13,7 @@ import { motion } from 'framer-motion';
 //    (es el código alfanumérico largo, ej: "a1b2c3d4-e5f6-7890-abcd-ef1234567890")
 // 6. Pégalo aquí abajo reemplazando la cadena vacía:
 // ============================================================
-const ELFSIGHT_WIDGET_ID = '';
+const ELFSIGHT_WIDGET_ID = 'cf4c8c0d-f26c-4256-a2c6-36ba1941de3c';
 
 const Gallery = () => {
   const widgetRef = useRef(null);
@@ -24,7 +24,7 @@ const Gallery = () => {
     // Load the Elfsight platform script if not already loaded
     if (!document.querySelector('script[src*="elfsight.com"]')) {
       const script = document.createElement('script');
-      script.src = 'https://static.elfsight.com/platform/platform.js';
+      script.src = 'https://elfsightcdn.com/platform.js';
       script.async = true;
       script.defer = true;
       document.head.appendChild(script);
