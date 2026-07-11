@@ -18,8 +18,7 @@ function App() {
     };
 
     window.addEventListener('hashchange', handleHashChange);
-    
-    // Load local draft if available
+    // Load local draft first for instant paint
     const localDraft = localStorage.getItem('pezgallo_menu_draft');
     if (localDraft) {
       try {
@@ -28,6 +27,24 @@ function App() {
         setMenu(staticMenuData);
       }
     }
+
+    // Fetch fresh data from cloud bucket in background
+    const fetchCloudMenu = async () => {
+      try {
+        const response = await fetch('https://kvdb.io/pezgallo_bucket_7f1a9b2c3d/menu');
+        if (response.ok) {
+          const data = await response.json();
+          if (Array.isArray(data) && data.length > 0) {
+            setMenu(data);
+            localStorage.setItem('pezgallo_menu_draft', JSON.stringify(data));
+          }
+        }
+      } catch (error) {
+        console.warn('Failed to load menu from cloud, using fallback:', error);
+      }
+    };
+
+    fetchCloudMenu();
 
     return () => {
       window.removeEventListener('hashchange', handleHashChange);

@@ -68,20 +68,19 @@ const Admin = ({ onBack }) => {
   const handleSyncCloud = async () => {
     setIsSaving(true);
     try {
-      const response = await fetch('/api/save-menu', {
-        method: 'POST',
+      const response = await fetch('https://kvdb.io/pezgallo_bucket_7f1a9b2c3d/menu', {
+        method: 'PUT',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ password: 'PGdeivid', menuData: menu }),
+        body: JSON.stringify(menu),
       });
-      const data = await response.json();
-      if (response.ok && data.status === 'ok') {
-        alert('🎉 ¡Cambios guardados en la nube con éxito! Vercel reconstruirá el sitio en 30-40 segundos para actualizarlo globalmente.');
+      if (response.ok) {
+        alert('🎉 ¡Menú sincronizado con la nube con éxito! Los cambios son visibles al instante en todos los dispositivos de tus clientes.');
       } else {
-        throw new Error(data.message || 'Error desconocido');
+        throw new Error('Error al conectar con la base de datos.');
       }
     } catch (error) {
-      console.warn('Sync failed, falling back to local draft:', error);
-      alert(`⚠️ Nota: Los cambios se guardaron localmente en este dispositivo, pero no se sincronizaron con la nube (${error.message}). Para guardado permanente global, asegúrate de configurar GITHUB_TOKEN en Vercel.`);
+      console.warn('Sync failed:', error);
+      alert(`⚠️ Error al sincronizar con la nube: ${error.message}. Los cambios siguen guardados de manera local en este dispositivo.`);
     } finally {
       setIsSaving(false);
     }
