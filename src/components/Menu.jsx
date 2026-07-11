@@ -28,7 +28,7 @@ const Menu = () => {
         display: 'flex',
         overflowX: 'auto',
         gap: '1rem',
-        padding: '1rem 0',
+        padding: '1.2rem 0.5rem',
         marginBottom: '2rem',
         scrollbarWidth: 'none', // Firefox
         msOverflowStyle: 'none', // IE/Edge
@@ -42,10 +42,10 @@ const Menu = () => {
             className="luso-glass"
             style={{
               padding: '10px 24px',
-              border: 'none',
               cursor: 'pointer',
               color: activeCategory === category.category ? '#fff' : 'var(--text-secondary)',
               background: activeCategory === category.category ? 'var(--glass-bg-hover)' : 'var(--glass-bg)',
+              borderColor: activeCategory === category.category ? 'var(--glass-border-light)' : 'var(--glass-border)',
               fontWeight: activeCategory === category.category ? 600 : 400,
               whiteSpace: 'nowrap',
               fontFamily: 'var(--font-primary)',
@@ -160,6 +160,12 @@ const Menu = () => {
       </div>
 
       <style>{`
+        .menu-tabs-container {
+          padding-left: 1rem !important;
+          padding-right: 1rem !important;
+          mask-image: linear-gradient(to right, transparent 0%, #000 24px, #000 calc(100% - 24px), transparent 100%);
+          -webkit-mask-image: linear-gradient(to right, transparent 0%, #000 24px, #000 calc(100% - 24px), transparent 100%);
+        }
         .menu-tabs-container::-webkit-scrollbar {
           display: none;
         }
