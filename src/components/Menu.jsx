@@ -1,11 +1,11 @@
 import React, { useState } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
-import { menuData } from '../data/menuData';
+import { menuData as staticMenuData } from '../data/menuData';
 
-const Menu = () => {
-  const [activeCategory, setActiveCategory] = useState(menuData[0].category);
+const Menu = ({ menuData = staticMenuData }) => {
+  const [activeCategory, setActiveCategory] = useState(menuData[0]?.category || '');
 
-  const currentCategoryData = menuData.find(cat => cat.category === activeCategory);
+  const currentCategoryData = menuData.find(cat => cat.category === activeCategory) || menuData[0];
 
   return (
     <section id="menu" className="container" style={{ paddingTop: '5rem', paddingBottom: '5rem' }}>
