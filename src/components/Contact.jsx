@@ -1,5 +1,6 @@
 import React from 'react';
 import { motion } from 'framer-motion';
+import { Phone, Clock, MapPin, Instagram } from 'lucide-react';
 
 const Contact = () => {
   return (
@@ -29,32 +30,46 @@ const Contact = () => {
           style={{ flex: '1 1 300px', padding: '2rem' }}
         >
           <div style={{ marginBottom: '2rem' }}>
-            <h3 style={{ fontSize: '1.3rem', marginBottom: '0.5rem', color: 'var(--text-secondary)' }}>Teléfono</h3>
-            <p style={{ fontSize: '1.2rem', fontWeight: 500 }}>312-131-89-31</p>
+            <h3 style={{ display: 'flex', alignItems: 'center', gap: '8px', fontSize: '1.3rem', marginBottom: '0.5rem', color: 'var(--text-secondary)' }}>
+              <Phone size={20} color="var(--accent-blue)" /> Teléfono
+            </h3>
+            <p style={{ fontSize: '1.2rem', fontWeight: 500, paddingLeft: '28px' }}>312-131-89-31</p>
           </div>
           
           <div style={{ marginBottom: '2rem' }}>
-            <h3 style={{ fontSize: '1.3rem', marginBottom: '0.5rem', color: 'var(--text-secondary)' }}>Horario</h3>
-            <p style={{ fontSize: '1.1rem' }}>Miércoles a Domingo</p>
-            <p style={{ fontSize: '1.1rem', color: 'var(--text-tertiary)' }}>12:00 PM – 6:00 PM</p>
+            <h3 style={{ display: 'flex', alignItems: 'center', gap: '8px', fontSize: '1.3rem', marginBottom: '0.5rem', color: 'var(--text-secondary)' }}>
+              <Clock size={20} color="var(--accent-blue)" /> Horario
+            </h3>
+            <div style={{ paddingLeft: '28px' }}>
+              <p style={{ fontSize: '1.1rem' }}>Miércoles a Domingo</p>
+              <p style={{ fontSize: '1.1rem', color: 'var(--text-tertiary)' }}>12:00 PM – 6:00 PM</p>
+            </div>
           </div>
 
           <div style={{ marginBottom: '2rem' }}>
-            <h3 style={{ fontSize: '1.3rem', marginBottom: '0.5rem', color: 'var(--text-secondary)' }}>Dirección</h3>
-            <p style={{ fontSize: '1.1rem' }}>Calle Ignacio Sandoval 515c</p>
-            <p style={{ fontSize: '1.1rem', color: 'var(--text-tertiary)' }}>Villa de Álvarez, Colima</p>
+            <h3 style={{ display: 'flex', alignItems: 'center', gap: '8px', fontSize: '1.3rem', marginBottom: '0.5rem', color: 'var(--text-secondary)' }}>
+              <MapPin size={20} color="var(--accent-blue)" /> Dirección
+            </h3>
+            <div style={{ paddingLeft: '28px' }}>
+              <p style={{ fontSize: '1.1rem' }}>Calle Ignacio Sandoval 515c</p>
+              <p style={{ fontSize: '1.1rem', color: 'var(--text-tertiary)' }}>Villa de Álvarez, Colima</p>
+            </div>
           </div>
 
           <div>
-            <h3 style={{ fontSize: '1.3rem', marginBottom: '0.5rem', color: 'var(--text-secondary)' }}>Redes</h3>
-            <a 
-              href="https://instagram.com/_pezgallo" 
-              target="_blank" 
-              rel="noreferrer"
-              style={{ color: 'var(--text-primary)', textDecoration: 'none', display: 'inline-flex', alignItems: 'center', gap: '8px' }}
-            >
-              @_pezgallo
-            </a>
+            <h3 style={{ display: 'flex', alignItems: 'center', gap: '8px', fontSize: '1.3rem', marginBottom: '0.5rem', color: 'var(--text-secondary)' }}>
+              <Instagram size={20} color="var(--accent-blue)" /> Redes
+            </h3>
+            <div style={{ paddingLeft: '28px' }}>
+              <a 
+                href="https://instagram.com/_pezgallo" 
+                target="_blank" 
+                rel="noreferrer"
+                style={{ color: 'var(--text-primary)', textDecoration: 'none', display: 'inline-flex', alignItems: 'center', gap: '8px' }}
+              >
+                @_pezgallo
+              </a>
+            </div>
           </div>
         </motion.div>
 

@@ -1,7 +1,7 @@
 export const menuData = [
   {
     category: "Para Compartir",
-    image: "https://images.unsplash.com/photo-1599907694363-d142d109f07a?auto=format&fit=crop&q=80&w=800", // Placeholder for sharing plates
+    image: "/images/atun.webp", // Representando platillos como Tiradito o La Panguita
     items: [
       { name: "Guacamole", price: "$90", description: "Aguacate, chile, limón y cilantro." },
       { name: "Balazos", price: "$85", description: "Camarones crudos levanta muertos." },
@@ -12,7 +12,7 @@ export const menuData = [
   },
   {
     category: "Ceviches",
-    image: "https://images.unsplash.com/photo-1534482421-64566f976cfa?auto=format&fit=crop&q=80&w=800",
+    image: "/images/ceviche.webp",
     items: [
       { name: "Mixto", price: "Orden: $320 | Media: $185 | Tostada: $115", description: "Pescado, pulpo, camarón curtido y cocido, salsas, chiles, cilantro y cebolla." },
       { name: "Tahitiana", price: "Orden: $260 | Media: $160 | Tostada: $80", description: "Tiritas de pescado curtido picositas con cebolla y pepino, lo mejor de la costa." },
@@ -22,7 +22,7 @@ export const menuData = [
   },
   {
     category: "Aguachiles",
-    image: "https://images.unsplash.com/photo-1599021456807-25db0f974333?auto=format&fit=crop&q=80&w=800",
+    image: "/images/tostada.webp",
     items: [
       { name: "Verde", price: "Orden: $270 | Media: $165 | Tostada: $85", description: "Tradicional aguachile preparado con verdura fresca y bañado en salsa picante." },
       { name: "De la Casa", price: "Orden: $270 | Media: $165 | Tostada: $85", description: "Camarón curtido, cebolla y pepino, bañado con deliciosa salsa roja pez gallo.", tag: "⭐" }
@@ -30,7 +30,7 @@ export const menuData = [
   },
   {
     category: "Chabelas",
-    image: "https://images.unsplash.com/photo-1551504734-5ee1c4a1479b?auto=format&fit=crop&q=80&w=800",
+    image: "/images/coctel.webp",
     items: [
       { name: "Camarón", price: "$220" },
       { name: "Pulpo", price: "$270" },
@@ -40,7 +40,7 @@ export const menuData = [
   },
   {
     category: "Especialidades",
-    image: "https://images.unsplash.com/photo-1565557623262-b51c2513a641?auto=format&fit=crop&q=80&w=800",
+    image: "/images/nosotros.webp",
     items: [
       { name: "Tostigallos", price: "$100", description: "Tostitos acompañados del aguachile de tu preferencia (verde/de la casa) o de tahitiana." },
       { name: "Torre de Mariscos", price: "$240", description: "Pulpo, camarón, una cama de ceviche \"deivis\", pepino con un toque de salsas de la casa y aguacate." }
@@ -48,7 +48,7 @@ export const menuData = [
   },
   {
     category: "Cocina Caliente",
-    image: "https://images.unsplash.com/photo-1626074961596-caa404093da4?auto=format&fit=crop&q=80&w=800",
+    image: "/images/hamburguesa.webp",
     items: [
       { name: "Tacos", price: "$55", description: "Camarón o Pescado capeado estilo baja con tortilla echa a mano y aguacate. Acompañados con col morada y pico de gallo." },
       { name: "Burritos (Camarón)", price: "$120", description: "Marisco capeado, tortilla de harina, queso, pico de gallo, aguacate y un poco de col morada. (De los favoritos)" },
@@ -65,7 +65,7 @@ export const menuData = [
   },
   {
     category: "Bebidas",
-    image: "https://images.unsplash.com/photo-1544145945-f90425340c7e?auto=format&fit=crop&q=80&w=800",
+    image: "/images/bebida.webp",
     items: [
       { name: "Limonada / Naranjada", price: "$40" },
       { name: "Refresco", price: "$35" }
