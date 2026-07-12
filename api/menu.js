@@ -16,6 +16,9 @@ export default async function handler(req, res) {
   const supabaseUrl = process.env.SUPABASE_URL || process.env.NEXT_PUBLIC_SUPABASE_URL;
   const supabaseAnonKey = process.env.SUPABASE_ANON_KEY || process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY;
   const hasSupabase = supabaseUrl && supabaseAnonKey;
+  
+  // Extract project ref for diagnostics
+  const supabaseProjectRef = supabaseUrl ? supabaseUrl.replace('https://', '').split('.')[0] : 'desconocido';
 
   // Detect Vercel KV
   const hasKV = process.env.KV_REST_API_URL && process.env.KV_REST_API_TOKEN;
@@ -24,9 +27,9 @@ export default async function handler(req, res) {
   const hasGitHub = process.env.GITHUB_TOKEN;
 
   if (req.method === 'GET') {
-    // 1. Try Supabase first
     if (hasSupabase) {
       try {
+        console.log(`[GET] Leyendo de Supabase (Ref: ${supabaseProjectRef})...`);
         const response = await fetch(`${supabaseUrl}/rest/v1/pezgallo_menu?id=eq.1&select=data`, {
           headers: {
             'apikey': supabaseAnonKey,
@@ -39,6 +42,9 @@ export default async function handler(req, res) {
           if (Array.isArray(resData) && resData.length > 0 && resData[0].data) {
             return res.status(200).json(resData[0].data);
           }
+        } else {
+          const errText = await response.text();
+          console.warn(`[GET] Falló lectura de Supabase (Ref: ${supabaseProjectRef}):`, errText);
         }
       } catch (e) {
         console.error('Error reading from Supabase:', e);
@@ -80,9 +86,10 @@ export default async function handler(req, res) {
       return res.status(401).json({ message: 'Contraseña incorrecta' });
     }
 
-    // 1. Try Supabase (Highly recommended, free, stable, large payloads)
+    // 1. Try Supabase
     if (hasSupabase) {
       try {
+        console.log(`[POST] Intentando guardar en Supabase (Ref: ${supabaseProjectRef})...`);
         const response = await fetch(`${supabaseUrl}/rest/v1/pezgallo_menu`, {
           method: 'POST',
           headers: {
@@ -95,15 +102,14 @@ export default async function handler(req, res) {
         });
 
         if (response.ok) {
-          return res.status(200).json({ status: 'ok', message: 'Sincronizado con Supabase con éxito' });
+          return res.status(200).json({ status: 'ok', message: `Sincronizado con Supabase (${supabaseProjectRef}) con éxito` });
         }
         
         const errText = await response.text();
-        // If the table doesn't exist yet, guide them to create it
         if (errText.includes('does not exist') || errText.includes('42P01')) {
-          throw new Error('La tabla "pezgallo_menu" no existe en Supabase. Debes crearla ejecutando el script SQL en tu panel de Supabase.');
+          throw new Error(`La tabla "pezgallo_menu" no existe en el proyecto Supabase "${supabaseProjectRef}". Asegúrate de haber ejecutado el SQL en el proyecto correcto.`);
         }
-        throw new Error(`Supabase respondió con error: ${errText}`);
+        throw new Error(`Supabase (${supabaseProjectRef}) respondió con error: ${errText}`);
       } catch (e) {
         console.error('Error saving to Supabase:', e);
         return res.status(500).json({ message: e.message });
