@@ -12,10 +12,40 @@ export default async function handler(req, res) {
     return res.status(200).end();
   }
 
+  // Detect Supabase
+  const supabaseUrl = process.env.SUPABASE_URL || process.env.NEXT_PUBLIC_SUPABASE_URL;
+  const supabaseAnonKey = process.env.SUPABASE_ANON_KEY || process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY;
+  const hasSupabase = supabaseUrl && supabaseAnonKey;
+
+  // Detect Vercel KV
   const hasKV = process.env.KV_REST_API_URL && process.env.KV_REST_API_TOKEN;
+
+  // Detect GitHub
   const hasGitHub = process.env.GITHUB_TOKEN;
 
   if (req.method === 'GET') {
+    // 1. Try Supabase first
+    if (hasSupabase) {
+      try {
+        const response = await fetch(`${supabaseUrl}/rest/v1/pezgallo_menu?id=eq.1&select=data`, {
+          headers: {
+            'apikey': supabaseAnonKey,
+            'Authorization': `Bearer ${supabaseAnonKey}`
+          }
+        });
+
+        if (response.ok) {
+          const resData = await response.json();
+          if (Array.isArray(resData) && resData.length > 0 && resData[0].data) {
+            return res.status(200).json(resData[0].data);
+          }
+        }
+      } catch (e) {
+        console.error('Error reading from Supabase:', e);
+      }
+    }
+
+    // 2. Try Vercel KV
     if (hasKV) {
       try {
         const response = await fetch(process.env.KV_REST_API_URL, {
@@ -39,7 +69,7 @@ export default async function handler(req, res) {
       }
     }
 
-    // Fallback: If no KV data yet or not connected, return empty array so client uses static data
+    // Fallback: Return empty array so client uses static data
     return res.status(200).json([]);
   }
 
@@ -50,7 +80,37 @@ export default async function handler(req, res) {
       return res.status(401).json({ message: 'Contraseña incorrecta' });
     }
 
-    // 1. Try Vercel KV if connected (RECOMMENDED - Instant sync)
+    // 1. Try Supabase (Highly recommended, free, stable, large payloads)
+    if (hasSupabase) {
+      try {
+        const response = await fetch(`${supabaseUrl}/rest/v1/pezgallo_menu`, {
+          method: 'POST',
+          headers: {
+            'apikey': supabaseAnonKey,
+            'Authorization': `Bearer ${supabaseAnonKey}`,
+            'Content-Type': 'application/json',
+            'Prefer': 'resolution=merge-duplicates'
+          },
+          body: JSON.stringify([{ id: 1, data: menuData }])
+        });
+
+        if (response.ok) {
+          return res.status(200).json({ status: 'ok', message: 'Sincronizado con Supabase con éxito' });
+        }
+        
+        const errText = await response.text();
+        // If the table doesn't exist yet, guide them to create it
+        if (errText.includes('does not exist') || errText.includes('42P01')) {
+          throw new Error('La tabla "pezgallo_menu" no existe en Supabase. Debes crearla ejecutando el script SQL en tu panel de Supabase.');
+        }
+        throw new Error(`Supabase respondió con error: ${errText}`);
+      } catch (e) {
+        console.error('Error saving to Supabase:', e);
+        return res.status(500).json({ message: e.message });
+      }
+    }
+
+    // 2. Try Vercel KV
     if (hasKV) {
       try {
         const response = await fetch(process.env.KV_REST_API_URL, {
@@ -74,7 +134,7 @@ export default async function handler(req, res) {
       }
     }
 
-    // 2. Try GitHub Auto-Commit as a fallback
+    // 3. Try GitHub Auto-Commit
     if (hasGitHub) {
       try {
         const owner = 'LUSO-code';
@@ -125,7 +185,7 @@ export default async function handler(req, res) {
         });
 
         if (putRes.ok) {
-          return res.status(200).json({ status: 'ok', message: 'Sincronizado con GitHub con éxito. El sitio se reconstruirá.' });
+          return res.status(200).json({ status: 'ok', message: 'Sincronizado con GitHub con éxito.' });
         }
         const errText = await putRes.text();
         throw new Error(`GitHub error: ${errText}`);
@@ -136,9 +196,9 @@ export default async function handler(req, res) {
       }
     }
 
-    // 3. No cloud storage connected
+    // 4. No cloud storage connected
     return res.status(400).json({ 
-      message: 'Base de datos no conectada. Para sincronizar tus cambios en todos los dispositivos de tus clientes, por favor conecta Vercel KV (Storage) en tu panel de Vercel.' 
+      message: 'Base de datos no conectada. Para sincronizar tus cambios, por favor conecta Supabase o Vercel KV en tu panel de Vercel.' 
     });
   }
 
