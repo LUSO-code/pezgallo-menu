@@ -29,6 +29,24 @@ const Gallery = () => {
       script.defer = true;
       document.head.appendChild(script);
     }
+
+    // Dynamic Observer to remove Elfsight watermark links as soon as they get injected
+    const removeWatermark = () => {
+      const links = document.querySelectorAll('a[href*="elfsight.com"], div[class*="eapps-link"]');
+      links.forEach(link => link.remove());
+    };
+
+    const observer = new MutationObserver(removeWatermark);
+    if (widgetRef.current) {
+      observer.observe(widgetRef.current, { childList: true, subtree: true });
+    }
+
+    const interval = setInterval(removeWatermark, 1000);
+
+    return () => {
+      observer.disconnect();
+      clearInterval(interval);
+    };
   }, []);
 
   return (
