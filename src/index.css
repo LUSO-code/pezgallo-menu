@@ -208,13 +208,18 @@ a[title*="Elfsight"] {
   left: -9999px !important;
 }
 
-/* Responsive Category Banner Image Position */
+/* Responsive Category Banner Image Position & Zoom */
 .category-banner-img {
   object-position: var(--pos-mobile, 50% 50%);
+  transform: scale(var(--zoom-mobile, 1));
+  transform-origin: var(--pos-mobile, 50% 50%);
+  transition: transform 0.2s ease, object-position 0.2s ease;
 }
 
 @media (min-width: 768px) {
   .category-banner-img {
     object-position: var(--pos-desktop, 50% 50%);
+    transform: scale(var(--zoom-desktop, 1));
+    transform-origin: var(--pos-desktop, 50% 50%);
   }
 }

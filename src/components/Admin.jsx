@@ -619,16 +619,20 @@ const Admin = ({ onBack }) => {
 
                     const mobPos = parsePos(cat.imagePositionMobile || cat.imagePosition);
                     const deskPos = parsePos(cat.imagePositionDesktop || cat.imagePosition);
+                    const mobZoom = cat.imageZoomMobile || 1.1;
+                    const deskZoom = cat.imageZoomDesktop || 1.1;
 
-                    const updateMobilePos = (newX, newY) => {
+                    const updateMobile = (newX, newY, newZoom) => {
                       const updated = [...menu];
                       updated[index].imagePositionMobile = `${newX}% ${newY}%`;
+                      updated[index].imageZoomMobile = parseFloat(newZoom);
                       saveLocalDraft(updated);
                     };
 
-                    const updateDesktopPos = (newX, newY) => {
+                    const updateDesktop = (newX, newY, newZoom) => {
                       const updated = [...menu];
                       updated[index].imagePositionDesktop = `${newX}% ${newY}%`;
+                      updated[index].imageZoomDesktop = parseFloat(newZoom);
                       saveLocalDraft(updated);
                     };
 
@@ -663,6 +667,9 @@ const Admin = ({ onBack }) => {
                                 height: '100%',
                                 objectFit: 'cover',
                                 objectPosition: `${mobPos.x}% ${mobPos.y}%`,
+                                transform: `scale(${mobZoom})`,
+                                transformOrigin: `${mobPos.x}% ${mobPos.y}%`,
+                                transition: 'transform 0.1s ease-out, object-position 0.1s ease-out',
                                 opacity: 0.9
                               }}
                             />
@@ -674,13 +681,26 @@ const Admin = ({ onBack }) => {
                           {/* Mobile Sliders */}
                           <div style={{ display: 'flex', flexDirection: 'column', gap: '10px', marginTop: '5px' }}>
                             <div style={{ display: 'flex', alignItems: 'center', gap: '10px' }}>
+                              <span style={{ fontSize: '0.8rem', color: 'var(--text-secondary)', minWidth: '130px' }}>🔍 Zoom (Móvil):</span>
+                              <input
+                                type="range"
+                                min="1"
+                                max="2"
+                                step="0.05"
+                                value={mobZoom}
+                                onChange={(e) => updateMobile(mobPos.x, mobPos.y, e.target.value)}
+                                style={{ flex: 1, accentColor: 'var(--accent-blue)', height: '6px', cursor: 'pointer' }}
+                              />
+                              <span style={{ fontSize: '0.8rem', color: 'white', fontWeight: 600, minWidth: '35px', textAlign: 'right' }}>{Math.round(mobZoom * 100)}%</span>
+                            </div>
+                            <div style={{ display: 'flex', alignItems: 'center', gap: '10px' }}>
                               <span style={{ fontSize: '0.8rem', color: 'var(--text-secondary)', minWidth: '130px' }}>↔️ Posición X (Móvil):</span>
                               <input
                                 type="range"
                                 min="0"
                                 max="100"
                                 value={mobPos.x}
-                                onChange={(e) => updateMobilePos(e.target.value, mobPos.y)}
+                                onChange={(e) => updateMobile(e.target.value, mobPos.y, mobZoom)}
                                 style={{ flex: 1, accentColor: 'var(--accent-blue)', height: '6px', cursor: 'pointer' }}
                               />
                               <span style={{ fontSize: '0.8rem', color: 'white', fontWeight: 600, minWidth: '35px', textAlign: 'right' }}>{mobPos.x}%</span>
@@ -692,7 +712,7 @@ const Admin = ({ onBack }) => {
                                 min="0"
                                 max="100"
                                 value={mobPos.y}
-                                onChange={(e) => updateMobilePos(mobPos.x, e.target.value)}
+                                onChange={(e) => updateMobile(mobPos.x, e.target.value, mobZoom)}
                                 style={{ flex: 1, accentColor: 'var(--accent-blue)', height: '6px', cursor: 'pointer' }}
                               />
                               <span style={{ fontSize: '0.8rem', color: 'white', fontWeight: 600, minWidth: '35px', textAlign: 'right' }}>{mobPos.y}%</span>
@@ -726,6 +746,9 @@ const Admin = ({ onBack }) => {
                                 height: '100%',
                                 objectFit: 'cover',
                                 objectPosition: `${deskPos.x}% ${deskPos.y}%`,
+                                transform: `scale(${deskZoom})`,
+                                transformOrigin: `${deskPos.x}% ${deskPos.y}%`,
+                                transition: 'transform 0.1s ease-out, object-position 0.1s ease-out',
                                 opacity: 0.9
                               }}
                             />
@@ -737,13 +760,26 @@ const Admin = ({ onBack }) => {
                           {/* Desktop Sliders */}
                           <div style={{ display: 'flex', flexDirection: 'column', gap: '10px', marginTop: '5px' }}>
                             <div style={{ display: 'flex', alignItems: 'center', gap: '10px' }}>
+                              <span style={{ fontSize: '0.8rem', color: 'var(--text-secondary)', minWidth: '130px' }}>🔍 Zoom (PC):</span>
+                              <input
+                                type="range"
+                                min="1"
+                                max="2"
+                                step="0.05"
+                                value={deskZoom}
+                                onChange={(e) => updateDesktop(deskPos.x, deskPos.y, e.target.value)}
+                                style={{ flex: 1, accentColor: '#ffb703', height: '6px', cursor: 'pointer' }}
+                              />
+                              <span style={{ fontSize: '0.8rem', color: 'white', fontWeight: 600, minWidth: '35px', textAlign: 'right' }}>{Math.round(deskZoom * 100)}%</span>
+                            </div>
+                            <div style={{ display: 'flex', alignItems: 'center', gap: '10px' }}>
                               <span style={{ fontSize: '0.8rem', color: 'var(--text-secondary)', minWidth: '130px' }}>↔️ Posición X (PC):</span>
                               <input
                                 type="range"
                                 min="0"
                                 max="100"
                                 value={deskPos.x}
-                                onChange={(e) => updateDesktopPos(e.target.value, deskPos.y)}
+                                onChange={(e) => updateDesktop(e.target.value, deskPos.y, deskZoom)}
                                 style={{ flex: 1, accentColor: '#ffb703', height: '6px', cursor: 'pointer' }}
                               />
                               <span style={{ fontSize: '0.8rem', color: 'white', fontWeight: 600, minWidth: '35px', textAlign: 'right' }}>{deskPos.x}%</span>
@@ -755,7 +791,7 @@ const Admin = ({ onBack }) => {
                                 min="0"
                                 max="100"
                                 value={deskPos.y}
-                                onChange={(e) => updateDesktopPos(deskPos.x, e.target.value)}
+                                onChange={(e) => updateDesktop(deskPos.x, e.target.value, deskZoom)}
                                 style={{ flex: 1, accentColor: '#ffb703', height: '6px', cursor: 'pointer' }}
                               />
                               <span style={{ fontSize: '0.8rem', color: 'white', fontWeight: 600, minWidth: '35px', textAlign: 'right' }}>{deskPos.y}%</span>

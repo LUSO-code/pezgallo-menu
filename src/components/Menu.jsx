@@ -92,6 +92,8 @@ const Menu = ({ menuData = staticMenuData }) => {
                   opacity: 0.8,
                   '--pos-mobile': currentCategoryData.imagePositionMobile || currentCategoryData.imagePosition || '50% 50%',
                   '--pos-desktop': currentCategoryData.imagePositionDesktop || currentCategoryData.imagePosition || '50% 50%',
+                  '--zoom-mobile': currentCategoryData.imageZoomMobile || 1,
+                  '--zoom-desktop': currentCategoryData.imageZoomDesktop || 1,
                 }}
               />
               <div style={{
