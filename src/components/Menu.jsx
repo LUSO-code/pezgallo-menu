@@ -84,12 +84,14 @@ const Menu = ({ menuData = staticMenuData }) => {
               <img 
                 src={currentCategoryData.image} 
                 alt={currentCategoryData.category}
+                className="category-banner-img"
                 style={{
                   width: '100%',
                   height: '100%',
                   objectFit: 'cover',
-                  objectPosition: currentCategoryData.imagePosition || 'center',
-                  opacity: 0.8
+                  opacity: 0.8,
+                  '--pos-mobile': currentCategoryData.imagePositionMobile || currentCategoryData.imagePosition || '50% 50%',
+                  '--pos-desktop': currentCategoryData.imagePositionDesktop || currentCategoryData.imagePosition || '50% 50%',
                 }}
               />
               <div style={{

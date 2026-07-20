@@ -207,3 +207,14 @@ a[title*="Elfsight"] {
   position: absolute !important;
   left: -9999px !important;
 }
+
+/* Responsive Category Banner Image Position */
+.category-banner-img {
+  object-position: var(--pos-mobile, 50% 50%);
+}
+
+@media (min-width: 768px) {
+  .category-banner-img {
+    object-position: var(--pos-desktop, 50% 50%);
+  }
+}

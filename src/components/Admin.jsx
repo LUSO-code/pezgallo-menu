@@ -601,7 +601,7 @@ const Admin = ({ onBack }) => {
                   </div>
 
                   {cat.image && (() => {
-                    // Helper to parse X and Y percentages from imagePosition string
+                    // Helper to parse X and Y percentages
                     const parsePos = (posStr) => {
                       if (!posStr) return { x: 50, y: 50 };
                       if (posStr === 'top') return { x: 50, y: 0 };
@@ -617,124 +617,149 @@ const Admin = ({ onBack }) => {
                       return { x: 50, y: isNaN(single) ? 50 : single };
                     };
 
-                    const currentPos = parsePos(cat.imagePosition);
+                    const mobPos = parsePos(cat.imagePositionMobile || cat.imagePosition);
+                    const deskPos = parsePos(cat.imagePositionDesktop || cat.imagePosition);
 
-                    const updatePosition = (newX, newY) => {
+                    const updateMobilePos = (newX, newY) => {
                       const updated = [...menu];
-                      updated[index].imagePosition = `${newX}% ${newY}%`;
+                      updated[index].imagePositionMobile = `${newX}% ${newY}%`;
+                      saveLocalDraft(updated);
+                    };
+
+                    const updateDesktopPos = (newX, newY) => {
+                      const updated = [...menu];
+                      updated[index].imagePositionDesktop = `${newX}% ${newY}%`;
                       saveLocalDraft(updated);
                     };
 
                     return (
-                      <div style={{ display: 'flex', flexDirection: 'column', gap: '15px', background: 'rgba(0,0,0,0.2)', padding: '15px', borderRadius: '12px', border: '1px solid rgba(255,255,255,0.05)' }}>
-                        <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
-                          <span style={{ fontSize: '0.85rem', fontWeight: 600, color: 'var(--text-secondary)' }}>👁️ Vistas Previas en Tiempo Real</span>
-                          <span style={{ fontSize: '0.75rem', color: 'var(--text-tertiary)' }}>Ajusta X e Y para encuadrar en ambas pantallas</span>
-                        </div>
+                      <div style={{ display: 'flex', flexDirection: 'column', gap: '20px' }}>
                         
-                        {/* Dual Previews Grid: Mobile vs Desktop */}
-                        <div style={{ display: 'flex', flexDirection: 'column', gap: '18px' }}>
-                          
-                          {/* Mobile Preview Box (Mobile Aspect 1.44:1) */}
-                          <div style={{ display: 'flex', flexDirection: 'column', gap: '6px' }}>
-                            <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
-                              <span style={{ fontSize: '0.8rem', color: 'var(--accent-blue)', fontWeight: 600 }}>📱 En Celulares (Vista Tarjeta Móvil - 1.4:1)</span>
-                            </div>
-                            <div style={{
-                              width: '240px',
-                              height: '165px',
-                              maxWidth: '100%',
-                              margin: '0 auto',
-                              borderRadius: '12px',
-                              overflow: 'hidden',
-                              position: 'relative',
-                              border: '2px solid rgba(0, 119, 182, 0.4)',
-                              boxShadow: '0 4px 15px rgba(0,0,0,0.4)',
-                              background: '#040914'
-                            }}>
-                              <img 
-                                src={cat.image} 
-                                alt="Preview Mobile" 
-                                style={{
-                                  width: '100%',
-                                  height: '100%',
-                                  objectFit: 'cover',
-                                  objectPosition: `${currentPos.x}% ${currentPos.y}%`,
-                                  opacity: 0.85
-                                }}
-                              />
-                              <div style={{ position: 'absolute', bottom: 0, left: 0, right: 0, padding: '8px 12px', background: 'linear-gradient(to top, rgba(0,0,0,0.85), transparent)' }}>
-                                <span style={{ color: 'white', fontWeight: 600, fontSize: '0.9rem', fontFamily: 'var(--font-serif)' }}>{cat.category}</span>
-                              </div>
+                        {/* CARD 1: SECCIÓN MÓVIL */}
+                        <div style={{ background: 'rgba(0, 119, 182, 0.08)', padding: '16px', borderRadius: '12px', border: '1px solid rgba(0, 119, 182, 0.25)', display: 'flex', flexDirection: 'column', gap: '12px' }}>
+                          <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
+                            <span style={{ fontSize: '0.9rem', color: 'var(--accent-blue)', fontWeight: 600 }}>📱 Ajustes de Encuadre para Celulares (Móvil)</span>
+                            <span style={{ fontSize: '0.75rem', color: 'var(--text-tertiary)' }}>Tarjeta 1.4:1</span>
+                          </div>
+
+                          {/* Mobile Preview Box */}
+                          <div style={{
+                            width: '240px',
+                            height: '165px',
+                            maxWidth: '100%',
+                            margin: '0 auto',
+                            borderRadius: '12px',
+                            overflow: 'hidden',
+                            position: 'relative',
+                            border: '2px solid var(--accent-blue)',
+                            boxShadow: '0 4px 15px rgba(0,0,0,0.5)',
+                            background: '#040914'
+                          }}>
+                            <img 
+                              src={cat.image} 
+                              alt="Preview Mobile" 
+                              style={{
+                                width: '100%',
+                                height: '100%',
+                                objectFit: 'cover',
+                                objectPosition: `${mobPos.x}% ${mobPos.y}%`,
+                                opacity: 0.9
+                              }}
+                            />
+                            <div style={{ position: 'absolute', bottom: 0, left: 0, right: 0, padding: '8px 12px', background: 'linear-gradient(to top, rgba(0,0,0,0.85), transparent)' }}>
+                              <span style={{ color: 'white', fontWeight: 600, fontSize: '0.9rem', fontFamily: 'var(--font-serif)' }}>{cat.category}</span>
                             </div>
                           </div>
 
-                          {/* Desktop Preview Box (Desktop Panoramic Aspect 4.6:1) */}
-                          <div style={{ display: 'flex', flexDirection: 'column', gap: '6px' }}>
-                            <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
-                              <span style={{ fontSize: '0.8rem', color: '#ffb703', fontWeight: 600 }}>💻 En Computadoras (Banner Panorámico - 4.6:1)</span>
-                            </div>
-                            <div style={{
-                              width: '100%',
-                              height: '100px',
-                              borderRadius: '12px',
-                              overflow: 'hidden',
-                              position: 'relative',
-                              border: '2px solid rgba(255, 183, 3, 0.4)',
-                              boxShadow: '0 4px 15px rgba(0,0,0,0.4)',
-                              background: '#040914'
-                            }}>
-                              <img 
-                                src={cat.image} 
-                                alt="Preview Desktop" 
-                                style={{
-                                  width: '100%',
-                                  height: '100%',
-                                  objectFit: 'cover',
-                                  objectPosition: `${currentPos.x}% ${currentPos.y}%`,
-                                  opacity: 0.85
-                                }}
+                          {/* Mobile Sliders */}
+                          <div style={{ display: 'flex', flexDirection: 'column', gap: '10px', marginTop: '5px' }}>
+                            <div style={{ display: 'flex', alignItems: 'center', gap: '10px' }}>
+                              <span style={{ fontSize: '0.8rem', color: 'var(--text-secondary)', minWidth: '130px' }}>↔️ Posición X (Móvil):</span>
+                              <input
+                                type="range"
+                                min="0"
+                                max="100"
+                                value={mobPos.x}
+                                onChange={(e) => updateMobilePos(e.target.value, mobPos.y)}
+                                style={{ flex: 1, accentColor: 'var(--accent-blue)', height: '6px', cursor: 'pointer' }}
                               />
-                              <div style={{ position: 'absolute', bottom: 0, left: 0, right: 0, padding: '8px 12px', background: 'linear-gradient(to top, rgba(0,0,0,0.85), transparent)' }}>
-                                <span style={{ color: 'white', fontWeight: 600, fontSize: '1.1rem', fontFamily: 'var(--font-serif)' }}>{cat.category}</span>
-                              </div>
+                              <span style={{ fontSize: '0.8rem', color: 'white', fontWeight: 600, minWidth: '35px', textAlign: 'right' }}>{mobPos.x}%</span>
+                            </div>
+                            <div style={{ display: 'flex', alignItems: 'center', gap: '10px' }}>
+                              <span style={{ fontSize: '0.8rem', color: 'var(--text-secondary)', minWidth: '130px' }}>↕️ Posición Y (Móvil):</span>
+                              <input
+                                type="range"
+                                min="0"
+                                max="100"
+                                value={mobPos.y}
+                                onChange={(e) => updateMobilePos(mobPos.x, e.target.value)}
+                                style={{ flex: 1, accentColor: 'var(--accent-blue)', height: '6px', cursor: 'pointer' }}
+                              />
+                              <span style={{ fontSize: '0.8rem', color: 'white', fontWeight: 600, minWidth: '35px', textAlign: 'right' }}>{mobPos.y}%</span>
                             </div>
                           </div>
-
                         </div>
 
-                        {/* Controls: Slider X & Slider Y */}
-                        <div style={{ display: 'flex', flexDirection: 'column', gap: '12px', marginTop: '8px', background: 'rgba(255,255,255,0.03)', padding: '12px', borderRadius: '10px' }}>
-                          {/* Slider X */}
-                          <div style={{ display: 'flex', alignItems: 'center', gap: '10px' }}>
-                            <span style={{ fontSize: '0.8rem', color: 'var(--text-secondary)', minWidth: '110px', fontWeight: 500 }}>↔️ Posición X (Horiz):</span>
-                            <input
-                              type="range"
-                              min="0"
-                              max="100"
-                              value={currentPos.x}
-                              onChange={(e) => updatePosition(e.target.value, currentPos.y)}
-                              style={{ flex: 1, accentColor: 'var(--accent-blue)', height: '6px', cursor: 'pointer' }}
-                            />
-                            <span style={{ fontSize: '0.8rem', color: 'white', fontWeight: 600, minWidth: '40px', textAlign: 'right' }}>
-                              {currentPos.x}%
-                            </span>
+                        {/* CARD 2: SECCIÓN ESCRITORIO / PC */}
+                        <div style={{ background: 'rgba(255, 183, 3, 0.08)', padding: '16px', borderRadius: '12px', border: '1px solid rgba(255, 183, 3, 0.25)', display: 'flex', flexDirection: 'column', gap: '12px' }}>
+                          <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
+                            <span style={{ fontSize: '0.9rem', color: '#ffb703', fontWeight: 600 }}>💻 Ajustes de Encuadre para Computadoras (Escritorio / PC)</span>
+                            <span style={{ fontSize: '0.75rem', color: 'var(--text-tertiary)' }}>Panorámico 4.6:1</span>
                           </div>
 
-                          {/* Slider Y */}
-                          <div style={{ display: 'flex', alignItems: 'center', gap: '10px' }}>
-                            <span style={{ fontSize: '0.8rem', color: 'var(--text-secondary)', minWidth: '110px', fontWeight: 500 }}>↕️ Posición Y (Vert):</span>
-                            <input
-                              type="range"
-                              min="0"
-                              max="100"
-                              value={currentPos.y}
-                              onChange={(e) => updatePosition(currentPos.x, e.target.value)}
-                              style={{ flex: 1, accentColor: '#ffb703', height: '6px', cursor: 'pointer' }}
+                          {/* Desktop Preview Box */}
+                          <div style={{
+                            width: '100%',
+                            height: '100px',
+                            borderRadius: '12px',
+                            overflow: 'hidden',
+                            position: 'relative',
+                            border: '2px solid #ffb703',
+                            boxShadow: '0 4px 15px rgba(0,0,0,0.5)',
+                            background: '#040914'
+                          }}>
+                            <img 
+                              src={cat.image} 
+                              alt="Preview Desktop" 
+                              style={{
+                                width: '100%',
+                                height: '100%',
+                                objectFit: 'cover',
+                                objectPosition: `${deskPos.x}% ${deskPos.y}%`,
+                                opacity: 0.9
+                              }}
                             />
-                            <span style={{ fontSize: '0.8rem', color: 'white', fontWeight: 600, minWidth: '40px', textAlign: 'right' }}>
-                              {currentPos.y}%
-                            </span>
+                            <div style={{ position: 'absolute', bottom: 0, left: 0, right: 0, padding: '8px 12px', background: 'linear-gradient(to top, rgba(0,0,0,0.85), transparent)' }}>
+                              <span style={{ color: 'white', fontWeight: 600, fontSize: '1.1rem', fontFamily: 'var(--font-serif)' }}>{cat.category}</span>
+                            </div>
+                          </div>
+
+                          {/* Desktop Sliders */}
+                          <div style={{ display: 'flex', flexDirection: 'column', gap: '10px', marginTop: '5px' }}>
+                            <div style={{ display: 'flex', alignItems: 'center', gap: '10px' }}>
+                              <span style={{ fontSize: '0.8rem', color: 'var(--text-secondary)', minWidth: '130px' }}>↔️ Posición X (PC):</span>
+                              <input
+                                type="range"
+                                min="0"
+                                max="100"
+                                value={deskPos.x}
+                                onChange={(e) => updateDesktopPos(e.target.value, deskPos.y)}
+                                style={{ flex: 1, accentColor: '#ffb703', height: '6px', cursor: 'pointer' }}
+                              />
+                              <span style={{ fontSize: '0.8rem', color: 'white', fontWeight: 600, minWidth: '35px', textAlign: 'right' }}>{deskPos.x}%</span>
+                            </div>
+                            <div style={{ display: 'flex', alignItems: 'center', gap: '10px' }}>
+                              <span style={{ fontSize: '0.8rem', color: 'var(--text-secondary)', minWidth: '130px' }}>↕️ Posición Y (PC):</span>
+                              <input
+                                type="range"
+                                min="0"
+                                max="100"
+                                value={deskPos.y}
+                                onChange={(e) => updateDesktopPos(deskPos.x, e.target.value)}
+                                style={{ flex: 1, accentColor: '#ffb703', height: '6px', cursor: 'pointer' }}
+                              />
+                              <span style={{ fontSize: '0.8rem', color: 'white', fontWeight: 600, minWidth: '35px', textAlign: 'right' }}>{deskPos.y}%</span>
+                            </div>
                           </div>
                         </div>
 
