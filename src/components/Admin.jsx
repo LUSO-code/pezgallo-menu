@@ -564,34 +564,13 @@ const Admin = ({ onBack }) => {
             {menu.map((cat, index) => (
               <div key={cat.category} className="luso-glass" style={{ padding: '1.5rem', display: 'flex', flexWrap: 'wrap', gap: '20px', alignItems: 'center' }}>
                 
-                {/* Image preview */}
-                <div style={{
-                  width: '120px',
-                  aspectRatio: '16/9',
-                  borderRadius: '12px',
-                  overflow: 'hidden',
-                  background: '#040914',
-                  position: 'relative',
-                  border: '1px solid rgba(255,255,255,0.1)'
-                }}>
-                  {cat.image ? (
-                    <img 
-                      src={cat.image} 
-                      alt={cat.category} 
-                      style={{ width: '100%', height: '100%', objectFit: 'cover', objectPosition: cat.imagePosition || 'center' }} 
-                    />
-                  ) : (
-                    <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', height: '100%', color: 'var(--text-tertiary)', fontSize: '0.85rem' }}>Sin foto</div>
-                  )}
-                </div>
-
-                {/* Details */}
-                <div style={{ flex: '1 1 200px' }}>
-                  <h3 style={{ fontSize: '1.2rem', fontFamily: 'var(--font-serif)', marginBottom: '8px' }}>{cat.category}</h3>
-                  <div style={{ display: 'flex', flexDirection: 'column', gap: '10px' }}>
+                {/* Details & Controls */}
+                <div style={{ flex: '1 1 300px', display: 'flex', flexDirection: 'column', gap: '15px' }}>
+                  <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
+                    <h3 style={{ fontSize: '1.25rem', fontFamily: 'var(--font-serif)', margin: 0 }}>{cat.category}</h3>
                     
                     {/* File Upload Button */}
-                    <div style={{ position: 'relative', display: 'inline-block' }}>
+                    <div style={{ position: 'relative' }}>
                       <input
                         type="file"
                         accept="image/*"
@@ -603,8 +582,8 @@ const Admin = ({ onBack }) => {
                         htmlFor={`file-${index}`}
                         style={{
                           padding: '8px 16px',
-                          background: 'rgba(255, 255, 255, 0.05)',
-                          border: '1px solid rgba(255, 255, 255, 0.1)',
+                          background: 'linear-gradient(135deg, var(--accent-blue), #0077b6)',
+                          border: 'none',
                           borderRadius: '8px',
                           color: 'white',
                           fontSize: '0.85rem',
@@ -612,46 +591,152 @@ const Admin = ({ onBack }) => {
                           display: 'inline-flex',
                           alignItems: 'center',
                           gap: '6px',
-                          fontWeight: 500
+                          fontWeight: 600,
+                          boxShadow: '0 2px 10px rgba(0, 119, 182, 0.3)'
                         }}
                       >
-                        <ImageIcon size={14} /> Cambiar Foto / Recortar
+                        <ImageIcon size={14} /> Subir / Recortar Foto
                       </label>
                     </div>
-
-                    {/* Image Position Slider */}
-                    {cat.image && (
-                      <div style={{ display: 'flex', alignItems: 'center', gap: '10px' }}>
-                        <span style={{ fontSize: '0.8rem', color: 'var(--text-secondary)', minWidth: '85px' }}>Posicionar Y:</span>
-                        <input
-                          type="range"
-                          min="0"
-                          max="100"
-                          value={
-                            cat.imagePosition === 'top' ? 0 : 
-                            cat.imagePosition === 'bottom' ? 100 : 
-                            cat.imagePosition === 'center' ? 50 : 
-                            parseInt(cat.imagePosition?.replace(/[^\d]/g, '') || '50')
-                          }
-                          onChange={(e) => {
-                            const val = e.target.value;
-                            const updated = [...menu];
-                            updated[index].imagePosition = `center ${val}%`;
-                            saveLocalDraft(updated);
-                          }}
-                          style={{
-                            flex: 1,
-                            accentColor: 'var(--accent-blue)',
-                            height: '4px'
-                          }}
-                        />
-                        <span style={{ fontSize: '0.8rem', color: 'var(--text-tertiary)', minWidth: '35px', textAlign: 'right' }}>
-                          {cat.imagePosition?.replace('center ', '') || '50%'}
-                        </span>
-                      </div>
-                    )}
-
                   </div>
+
+                  {cat.image && (() => {
+                    // Helper to parse X and Y percentages from imagePosition string
+                    const parsePos = (posStr) => {
+                      if (!posStr) return { x: 50, y: 50 };
+                      if (posStr === 'top') return { x: 50, y: 0 };
+                      if (posStr === 'bottom') return { x: 50, y: 100 };
+                      if (posStr === 'center') return { x: 50, y: 50 };
+                      const parts = posStr.split(' ');
+                      if (parts.length === 2) {
+                        const xVal = parseInt(parts[0].replace(/[^\d]/g, '') || '50');
+                        const yVal = parseInt(parts[1].replace(/[^\d]/g, '') || '50');
+                        return { x: isNaN(xVal) ? 50 : xVal, y: isNaN(yVal) ? 50 : yVal };
+                      }
+                      const single = parseInt(posStr.replace(/[^\d]/g, '') || '50');
+                      return { x: 50, y: isNaN(single) ? 50 : single };
+                    };
+
+                    const currentPos = parsePos(cat.imagePosition);
+
+                    const updatePosition = (newX, newY) => {
+                      const updated = [...menu];
+                      updated[index].imagePosition = `${newX}% ${newY}%`;
+                      saveLocalDraft(updated);
+                    };
+
+                    return (
+                      <div style={{ display: 'flex', flexDirection: 'column', gap: '15px', background: 'rgba(0,0,0,0.2)', padding: '15px', borderRadius: '12px', border: '1px solid rgba(255,255,255,0.05)' }}>
+                        <span style={{ fontSize: '0.85rem', fontWeight: 600, color: 'var(--text-secondary)' }}>👁️ Vistas Previas en Tiempo Real</span>
+                        
+                        {/* Dual Previews Grid: Mobile vs Desktop */}
+                        <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(220px, 1fr))', gap: '15px' }}>
+                          
+                          {/* Mobile Preview Box (Aspect ~1.4:1) */}
+                          <div style={{ display: 'flex', flexDirection: 'column', gap: '6px' }}>
+                            <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
+                              <span style={{ fontSize: '0.75rem', color: 'var(--accent-blue)', fontWeight: 600 }}>📱 En Celulares (Móvil)</span>
+                              <span style={{ fontSize: '0.7rem', color: 'var(--text-tertiary)' }}>Encuadre vertical</span>
+                            </div>
+                            <div style={{
+                              width: '100%',
+                              height: '140px',
+                              borderRadius: '12px',
+                              overflow: 'hidden',
+                              position: 'relative',
+                              border: '1px solid rgba(255,255,255,0.15)',
+                              background: '#040914'
+                            }}>
+                              <img 
+                                src={cat.image} 
+                                alt="Preview Mobile" 
+                                style={{
+                                  width: '100%',
+                                  height: '100%',
+                                  objectFit: 'cover',
+                                  objectPosition: `${currentPos.x}% ${currentPos.y}%`,
+                                  opacity: 0.85
+                                }}
+                              />
+                              <div style={{ position: 'absolute', bottom: 0, left: 0, right: 0, padding: '8px 12px', background: 'linear-gradient(to top, rgba(0,0,0,0.8), transparent)' }}>
+                                <span style={{ color: 'white', fontWeight: 600, fontSize: '0.9rem', fontFamily: 'var(--font-serif)' }}>{cat.category}</span>
+                              </div>
+                            </div>
+                          </div>
+
+                          {/* Desktop Preview Box (Aspect ~4.6:1 wide banner) */}
+                          <div style={{ display: 'flex', flexDirection: 'column', gap: '6px' }}>
+                            <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
+                              <span style={{ fontSize: '0.75rem', color: '#ffb703', fontWeight: 600 }}>💻 En Computadoras (Escritorio)</span>
+                              <span style={{ fontSize: '0.7rem', color: 'var(--text-tertiary)' }}>Encuadre panorámico</span>
+                            </div>
+                            <div style={{
+                              width: '100%',
+                              height: '140px',
+                              borderRadius: '12px',
+                              overflow: 'hidden',
+                              position: 'relative',
+                              border: '1px solid rgba(255,255,255,0.15)',
+                              background: '#040914'
+                            }}>
+                              <img 
+                                src={cat.image} 
+                                alt="Preview Desktop" 
+                                style={{
+                                  width: '100%',
+                                  height: '100%',
+                                  objectFit: 'cover',
+                                  objectPosition: `${currentPos.x}% ${currentPos.y}%`,
+                                  opacity: 0.85
+                                }}
+                              />
+                              <div style={{ position: 'absolute', bottom: 0, left: 0, right: 0, padding: '8px 12px', background: 'linear-gradient(to top, rgba(0,0,0,0.8), transparent)' }}>
+                                <span style={{ color: 'white', fontWeight: 600, fontSize: '0.9rem', fontFamily: 'var(--font-serif)' }}>{cat.category}</span>
+                              </div>
+                            </div>
+                          </div>
+
+                        </div>
+
+                        {/* Controls: Slider X & Slider Y */}
+                        <div style={{ display: 'flex', flexDirection: 'column', gap: '10px', marginTop: '5px' }}>
+                          {/* Slider X */}
+                          <div style={{ display: 'flex', alignItems: 'center', gap: '10px' }}>
+                            <span style={{ fontSize: '0.8rem', color: 'var(--text-secondary)', minWidth: '100px' }}>↔️ Posición X (Horiz):</span>
+                            <input
+                              type="range"
+                              min="0"
+                              max="100"
+                              value={currentPos.x}
+                              onChange={(e) => updatePosition(e.target.value, currentPos.y)}
+                              style={{ flex: 1, accentColor: 'var(--accent-blue)', height: '5px', cursor: 'pointer' }}
+                            />
+                            <span style={{ fontSize: '0.8rem', color: 'var(--text-tertiary)', minWidth: '40px', textAlign: 'right' }}>
+                              {currentPos.x}%
+                            </span>
+                          </div>
+
+                          {/* Slider Y */}
+                          <div style={{ display: 'flex', alignItems: 'center', gap: '10px' }}>
+                            <span style={{ fontSize: '0.8rem', color: 'var(--text-secondary)', minWidth: '100px' }}>↕️ Posición Y (Vert):</span>
+                            <input
+                              type="range"
+                              min="0"
+                              max="100"
+                              value={currentPos.y}
+                              onChange={(e) => updatePosition(currentPos.x, e.target.value)}
+                              style={{ flex: 1, accentColor: '#ffb703', height: '5px', cursor: 'pointer' }}
+                            />
+                            <span style={{ fontSize: '0.8rem', color: 'var(--text-tertiary)', minWidth: '40px', textAlign: 'right' }}>
+                              {currentPos.y}%
+                            </span>
+                          </div>
+                        </div>
+
+                      </div>
+                    );
+                  })()}
+
                 </div>
 
               </div>

@@ -137,6 +137,8 @@ const ImageCropper = ({ onCrop, onCancel, imageUrl }) => {
     onCrop(dataUrl);
   };
 
+  const [aspectMode, setAspectMode] = useState('mobile'); // 'mobile' (16/10) | 'desktop' (3.8/1)
+
   return (
     <div style={{
       position: 'fixed',
@@ -153,10 +155,44 @@ const ImageCropper = ({ onCrop, onCancel, imageUrl }) => {
       justifyContent: 'center',
       padding: '20px',
     }}>
-      <h3 style={{ marginBottom: '15px', color: 'white', fontFamily: 'var(--font-primary)' }}>Ajustar Encuadre</h3>
-      <p style={{ color: 'var(--text-secondary)', fontSize: '0.9rem', marginBottom: '20px', textAlign: 'center' }}>
-        Arrastra para centrar y usa la barra inferior para hacer zoom.
+      <h3 style={{ marginBottom: '5px', color: 'white', fontFamily: 'var(--font-primary)' }}>Ajustar Encuadre de la Imagen</h3>
+      <p style={{ color: 'var(--text-secondary)', fontSize: '0.85rem', marginBottom: '15px', textAlign: 'center' }}>
+        Arrastra para centrar y cambia de vista previa para asegurar que se vea bien en celulares y computadoras.
       </p>
+
+      {/* Mode Switcher */}
+      <div style={{ display: 'flex', gap: '10px', marginBottom: '15px', background: 'rgba(255,255,255,0.05)', padding: '4px', borderRadius: '10px' }}>
+        <button
+          onClick={() => setAspectMode('mobile')}
+          style={{
+            padding: '8px 16px',
+            borderRadius: '8px',
+            border: 'none',
+            background: aspectMode === 'mobile' ? 'var(--accent-blue)' : 'transparent',
+            color: 'white',
+            fontWeight: 600,
+            fontSize: '0.8rem',
+            cursor: 'pointer'
+          }}
+        >
+          📱 Vista Móvil (Celular)
+        </button>
+        <button
+          onClick={() => setAspectMode('desktop')}
+          style={{
+            padding: '8px 16px',
+            borderRadius: '8px',
+            border: 'none',
+            background: aspectMode === 'desktop' ? '#ffb703' : 'transparent',
+            color: aspectMode === 'desktop' ? '#000' : 'white',
+            fontWeight: 600,
+            fontSize: '0.8rem',
+            cursor: 'pointer'
+          }}
+        >
+          💻 Vista Escritorio (PC)
+        </button>
+      </div>
 
       {/* Crop Window Container */}
       <div 
@@ -164,11 +200,12 @@ const ImageCropper = ({ onCrop, onCancel, imageUrl }) => {
         style={{
           width: '100%',
           maxWidth: '500px',
-          aspectRatio: '16/9',
+          aspectRatio: aspectMode === 'mobile' ? '16/10' : '3.8/1',
+          transition: 'aspect-ratio 0.3s ease',
           overflow: 'hidden',
           position: 'relative',
           borderRadius: '16px',
-          border: '2px solid rgba(255, 255, 255, 0.2)',
+          border: aspectMode === 'mobile' ? '2px solid var(--accent-blue)' : '2px solid #ffb703',
           boxShadow: '0 8px 32px rgba(0,0,0,0.5)',
           cursor: isDragging ? 'grabbing' : 'grab',
           touchAction: 'none',
