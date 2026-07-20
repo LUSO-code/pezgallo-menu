@@ -324,8 +324,8 @@ const Admin = ({ onBack }) => {
         {/* Sync / Save Notification bar */}
         <div className="luso-glass" style={{ padding: '1.2rem', marginBottom: '2rem', display: 'flex', justifyContent: 'space-between', alignItems: 'center', flexWrap: 'wrap', gap: '15px' }}>
           <div>
-            <h4 style={{ fontWeight: 600 }}>Sincronización en la Nube</h4>
-            <p style={{ fontSize: '0.85rem', color: 'var(--text-secondary)' }}>Guarda tus cambios localmente o envíalos a GitHub/Vercel.</p>
+            <h4 style={{ fontWeight: 600, fontSize: '1.1rem' }}>Publicar Menú en Vivo</h4>
+            <p style={{ fontSize: '0.85rem', color: 'var(--text-secondary)' }}>Guarda tus cambios y publícalos al instante para que tus clientes los vean en sus celulares.</p>
           </div>
           <button
             onClick={handleSyncCloud}
@@ -345,7 +345,7 @@ const Admin = ({ onBack }) => {
               opacity: isSaving ? 0.7 : 1
             }}
           >
-            <Save size={18} /> {isSaving ? 'Guardando...' : 'Sincronizar Web'}
+            <Save size={18} /> {isSaving ? 'Guardando...' : '🚀 Publicar Cambios'}
           </button>
         </div>
 
@@ -627,24 +627,29 @@ const Admin = ({ onBack }) => {
 
                     return (
                       <div style={{ display: 'flex', flexDirection: 'column', gap: '15px', background: 'rgba(0,0,0,0.2)', padding: '15px', borderRadius: '12px', border: '1px solid rgba(255,255,255,0.05)' }}>
-                        <span style={{ fontSize: '0.85rem', fontWeight: 600, color: 'var(--text-secondary)' }}>👁️ Vistas Previas en Tiempo Real</span>
+                        <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
+                          <span style={{ fontSize: '0.85rem', fontWeight: 600, color: 'var(--text-secondary)' }}>👁️ Vistas Previas en Tiempo Real</span>
+                          <span style={{ fontSize: '0.75rem', color: 'var(--text-tertiary)' }}>Ajusta X e Y para encuadrar en ambas pantallas</span>
+                        </div>
                         
                         {/* Dual Previews Grid: Mobile vs Desktop */}
-                        <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(220px, 1fr))', gap: '15px' }}>
+                        <div style={{ display: 'flex', flexDirection: 'column', gap: '18px' }}>
                           
-                          {/* Mobile Preview Box (Aspect ~1.4:1) */}
+                          {/* Mobile Preview Box (Mobile Aspect 1.44:1) */}
                           <div style={{ display: 'flex', flexDirection: 'column', gap: '6px' }}>
                             <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
-                              <span style={{ fontSize: '0.75rem', color: 'var(--accent-blue)', fontWeight: 600 }}>📱 En Celulares (Móvil)</span>
-                              <span style={{ fontSize: '0.7rem', color: 'var(--text-tertiary)' }}>Encuadre vertical</span>
+                              <span style={{ fontSize: '0.8rem', color: 'var(--accent-blue)', fontWeight: 600 }}>📱 En Celulares (Vista Tarjeta Móvil - 1.4:1)</span>
                             </div>
                             <div style={{
-                              width: '100%',
-                              height: '140px',
+                              width: '240px',
+                              height: '165px',
+                              maxWidth: '100%',
+                              margin: '0 auto',
                               borderRadius: '12px',
                               overflow: 'hidden',
                               position: 'relative',
-                              border: '1px solid rgba(255,255,255,0.15)',
+                              border: '2px solid rgba(0, 119, 182, 0.4)',
+                              boxShadow: '0 4px 15px rgba(0,0,0,0.4)',
                               background: '#040914'
                             }}>
                               <img 
@@ -658,25 +663,25 @@ const Admin = ({ onBack }) => {
                                   opacity: 0.85
                                 }}
                               />
-                              <div style={{ position: 'absolute', bottom: 0, left: 0, right: 0, padding: '8px 12px', background: 'linear-gradient(to top, rgba(0,0,0,0.8), transparent)' }}>
+                              <div style={{ position: 'absolute', bottom: 0, left: 0, right: 0, padding: '8px 12px', background: 'linear-gradient(to top, rgba(0,0,0,0.85), transparent)' }}>
                                 <span style={{ color: 'white', fontWeight: 600, fontSize: '0.9rem', fontFamily: 'var(--font-serif)' }}>{cat.category}</span>
                               </div>
                             </div>
                           </div>
 
-                          {/* Desktop Preview Box (Aspect ~4.6:1 wide banner) */}
+                          {/* Desktop Preview Box (Desktop Panoramic Aspect 4.6:1) */}
                           <div style={{ display: 'flex', flexDirection: 'column', gap: '6px' }}>
                             <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
-                              <span style={{ fontSize: '0.75rem', color: '#ffb703', fontWeight: 600 }}>💻 En Computadoras (Escritorio)</span>
-                              <span style={{ fontSize: '0.7rem', color: 'var(--text-tertiary)' }}>Encuadre panorámico</span>
+                              <span style={{ fontSize: '0.8rem', color: '#ffb703', fontWeight: 600 }}>💻 En Computadoras (Banner Panorámico - 4.6:1)</span>
                             </div>
                             <div style={{
                               width: '100%',
-                              height: '140px',
+                              height: '100px',
                               borderRadius: '12px',
                               overflow: 'hidden',
                               position: 'relative',
-                              border: '1px solid rgba(255,255,255,0.15)',
+                              border: '2px solid rgba(255, 183, 3, 0.4)',
+                              boxShadow: '0 4px 15px rgba(0,0,0,0.4)',
                               background: '#040914'
                             }}>
                               <img 
@@ -690,8 +695,8 @@ const Admin = ({ onBack }) => {
                                   opacity: 0.85
                                 }}
                               />
-                              <div style={{ position: 'absolute', bottom: 0, left: 0, right: 0, padding: '8px 12px', background: 'linear-gradient(to top, rgba(0,0,0,0.8), transparent)' }}>
-                                <span style={{ color: 'white', fontWeight: 600, fontSize: '0.9rem', fontFamily: 'var(--font-serif)' }}>{cat.category}</span>
+                              <div style={{ position: 'absolute', bottom: 0, left: 0, right: 0, padding: '8px 12px', background: 'linear-gradient(to top, rgba(0,0,0,0.85), transparent)' }}>
+                                <span style={{ color: 'white', fontWeight: 600, fontSize: '1.1rem', fontFamily: 'var(--font-serif)' }}>{cat.category}</span>
                               </div>
                             </div>
                           </div>
@@ -699,35 +704,35 @@ const Admin = ({ onBack }) => {
                         </div>
 
                         {/* Controls: Slider X & Slider Y */}
-                        <div style={{ display: 'flex', flexDirection: 'column', gap: '10px', marginTop: '5px' }}>
+                        <div style={{ display: 'flex', flexDirection: 'column', gap: '12px', marginTop: '8px', background: 'rgba(255,255,255,0.03)', padding: '12px', borderRadius: '10px' }}>
                           {/* Slider X */}
                           <div style={{ display: 'flex', alignItems: 'center', gap: '10px' }}>
-                            <span style={{ fontSize: '0.8rem', color: 'var(--text-secondary)', minWidth: '100px' }}>↔️ Posición X (Horiz):</span>
+                            <span style={{ fontSize: '0.8rem', color: 'var(--text-secondary)', minWidth: '110px', fontWeight: 500 }}>↔️ Posición X (Horiz):</span>
                             <input
                               type="range"
                               min="0"
                               max="100"
                               value={currentPos.x}
                               onChange={(e) => updatePosition(e.target.value, currentPos.y)}
-                              style={{ flex: 1, accentColor: 'var(--accent-blue)', height: '5px', cursor: 'pointer' }}
+                              style={{ flex: 1, accentColor: 'var(--accent-blue)', height: '6px', cursor: 'pointer' }}
                             />
-                            <span style={{ fontSize: '0.8rem', color: 'var(--text-tertiary)', minWidth: '40px', textAlign: 'right' }}>
+                            <span style={{ fontSize: '0.8rem', color: 'white', fontWeight: 600, minWidth: '40px', textAlign: 'right' }}>
                               {currentPos.x}%
                             </span>
                           </div>
 
                           {/* Slider Y */}
                           <div style={{ display: 'flex', alignItems: 'center', gap: '10px' }}>
-                            <span style={{ fontSize: '0.8rem', color: 'var(--text-secondary)', minWidth: '100px' }}>↕️ Posición Y (Vert):</span>
+                            <span style={{ fontSize: '0.8rem', color: 'var(--text-secondary)', minWidth: '110px', fontWeight: 500 }}>↕️ Posición Y (Vert):</span>
                             <input
                               type="range"
                               min="0"
                               max="100"
                               value={currentPos.y}
                               onChange={(e) => updatePosition(currentPos.x, e.target.value)}
-                              style={{ flex: 1, accentColor: '#ffb703', height: '5px', cursor: 'pointer' }}
+                              style={{ flex: 1, accentColor: '#ffb703', height: '6px', cursor: 'pointer' }}
                             />
-                            <span style={{ fontSize: '0.8rem', color: 'var(--text-tertiary)', minWidth: '40px', textAlign: 'right' }}>
+                            <span style={{ fontSize: '0.8rem', color: 'white', fontWeight: 600, minWidth: '40px', textAlign: 'right' }}>
                               {currentPos.y}%
                             </span>
                           </div>
