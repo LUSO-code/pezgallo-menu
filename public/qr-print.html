@@ -1,0 +1,186 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <title>QR Menú Digital Pezgallo - Para Imprimir</title>
+  <style>
+    @import url('https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700&family=Montserrat:wght@600;700&display=swap');
+
+    @page {
+      size: A5 portrait;
+      margin: 0;
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    body {
+      background-color: #d8c5a4;
+      background-image: radial-gradient(#cbb28d 1px, transparent 1px), radial-gradient(#cbb28d 1px, #d8c5a4 1px);
+      background-size: 20px 20px;
+      background-position: 0 0, 10px 10px;
+      font-family: 'Montserrat', sans-serif;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      min-height: 100vh;
+      color: #0b1b36;
+      padding: 20px;
+    }
+
+    .card {
+      width: 100%;
+      max-width: 450px;
+      aspect-ratio: 2 / 3;
+      border: 3px solid #0b1b36;
+      padding: 12px;
+      box-shadow: 0 10px 30px rgba(0,0,0,0.15);
+      position: relative;
+      background: #d8c5a4;
+    }
+
+    .card-inner {
+      border: 1px solid #0b1b36;
+      height: 100%;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: space-between;
+      padding: 2.5rem 1.5rem;
+      position: relative;
+    }
+
+    /* Corner Ornaments */
+    .corner {
+      position: absolute;
+      width: 16px;
+      height: 16px;
+      border: 2px solid #0b1b36;
+    }
+    .corner-tl { top: -2px; left: -2px; border-right: none; border-bottom: none; }
+    .corner-tr { top: -2px; right: -2px; border-left: none; border-bottom: none; }
+    .corner-bl { bottom: -2px; left: -2px; border-right: none; border-top: none; }
+    .corner-br { bottom: -2px; right: -2px; border-left: none; border-top: none; }
+
+    .star-header {
+      font-size: 1.4rem;
+      margin-bottom: 5px;
+    }
+
+    h1 {
+      font-family: 'Playfair Display', serif;
+      font-size: 3rem;
+      letter-spacing: 6px;
+      text-transform: uppercase;
+      line-height: 1;
+      margin-bottom: 8px;
+    }
+
+    .sub-title {
+      font-size: 1.1rem;
+      letter-spacing: 5px;
+      font-weight: 700;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+
+    .qr-container {
+      position: relative;
+      width: 250px;
+      height: 250px;
+      margin: 1.5rem 0;
+      background: white;
+      padding: 10px;
+      border-radius: 12px;
+      border: 2px solid #0b1b36;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .qr-container img.qr-img {
+      width: 100%;
+      height: 100%;
+    }
+
+    .qr-logo-overlay {
+      position: absolute;
+      width: 60px;
+      height: 60px;
+      background: #d8c5a4;
+      border-radius: 50%;
+      border: 3px solid #0b1b36;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      box-shadow: 0 2px 8px rgba(0,0,0,0.3);
+    }
+
+    .qr-logo-overlay svg {
+      width: 38px;
+      height: 38px;
+      fill: #0b1b36;
+    }
+
+    .star-footer {
+      font-size: 1.4rem;
+    }
+
+    .url-text {
+      font-size: 0.85rem;
+      letter-spacing: 2px;
+      color: rgba(11, 27, 54, 0.8);
+      font-weight: 600;
+      margin-top: 5px;
+    }
+
+    @media print {
+      body {
+        background: none;
+        padding: 0;
+      }
+      .card {
+        box-shadow: none;
+      }
+    }
+  </style>
+</head>
+<body>
+
+  <div class="card">
+    <div class="card-inner">
+      <div class="corner corner-tl"></div>
+      <div class="corner corner-tr"></div>
+      <div class="corner corner-bl"></div>
+      <div class="corner corner-br"></div>
+
+      <div style="text-align: center;">
+        <div class="star-header">★</div>
+        <h1>MENÚ</h1>
+        <div class="sub-title">★ DIGITAL ★</div>
+      </div>
+
+      <div class="qr-container">
+        <!-- High Error Correction Scannable QR Code -->
+        <img class="qr-img" src="real_qr_scannable.png" alt="QR Code https://www.mariscospezgallo.com">
+        <div class="qr-logo-overlay">
+          <!-- Roosterfish / Fish Icon -->
+          <svg viewBox="0 0 24 24">
+            <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm1 17.93c-3.95-.49-7-3.85-7-7.93 0-.62.08-1.21.21-1.79L9 15v1c0 1.1.9 2 2 2v1.93zm6.9-2.54c-.26-.81-1-1.39-1.9-1.39h-1v-3c0-.55-.45-1-1-1H8v-2h2c.55 0 1-.45 1-1V7h2c1.1 0 2-.9 2-2v-.41c2.93 1.19 5 4.06 5 7.41 0 2.08-.8 3.97-2.1 5.39z"/>
+          </svg>
+        </div>
+      </div>
+
+      <div style="text-align: center;">
+        <div class="star-footer">★</div>
+        <div class="url-text">mariscospezgallo.com</div>
+      </div>
+    </div>
+  </div>
+
+</body>
+</html>
